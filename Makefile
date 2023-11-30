@@ -1,24 +1,19 @@
+CC = g++
 FLAGS = -Wall -Wextra -Werror -std=c++17
-FILES = s21_matrix_oop.cc
+FILES = test.cc
 GTEST = -lgtest -lgtest_main
 GCOV = -fprofile-arcs -ftest-coverage -fPIC -pthread
 
 all: gcov_report
 
 test: clean 
-	g++ ${FLAGS} tests_s21_matrix.cc -c 
-	g++ ${FLAGS} ${GCOV} ${FILES} tests_s21_matrix.o -o test ${GTEST}
+	${CC} ${FLAGS} ${GCOV} ${FILES} ${GTEST} -o test
 	./test
 
-gcov_report: test 
-	lcov -t "matrix" -o matrix.info -c -d .
-	genhtml -o report matrix.info
-
-ifeq (${OS}, Linux)
-	cd report && firefox index.html
-else
-	cd report && open index.html
-endif
+gcov_report: test
+	mkdir report
+	gcovr --html-details -o report/coverage.html
+	open ./report/coverage.html
 
 clean:
-	rm -rf *.o *.out *.gch *.dSYM *.gcov *.gcda *.gcno *.a tests_s21_matrix *.css *.html vgcore* report *.info *.gz *.log test
+	rm -rf *.o *.out *.gch *.dSYM *.gcov *.gcda *.gcno *.a *.css *.html *.info *.gz *.log test report
