@@ -26,23 +26,23 @@ namespace s21
             }
         }
 
-        array(const array &a)
+        array(const array &other)
         {
-            for (size_t i = a.begin(); i < a.end(); ++i)
+            for (size_t i = 0; i < other.size(); ++i)
             {
-                arr_[i] = a.arr_[i];
+                arr_[i] = other.arr_[i];
             }
         }
 
-        array(array &&a) : array(a) {}
+        array(array &&other) : array(other) {}
 
-        array operator=(array &&a)
+        array operator=(array &&other)
         {
-            if (this != &a)
+            if (this != &other)
             {
-                for (size_t i = a.begin(); i < a.end(); ++i)
+                for (size_t i = 0; other.size(); ++i)
                 {
-                    arr_[i] = a.arr_[i];
+                    arr_[i] = other.arr_[i];
                 }
             }
             return *this;
@@ -60,31 +60,34 @@ namespace s21
         }
 
         reference operator[](size_type pos) { return arr_[pos]; }
+        const_reference operator[](size_type pos) const { return arr_[pos]; }
 
-        const_reference front() { return arr_[0]; }
+        const_reference front() const { return arr_[0]; }
 
-        const_reference back() { return arr_[N - 1]; }
+        const_reference back() const { return arr_[N - 1]; }
 
         iterator data() { return arr_; }
 
         iterator begin() { return arr_; }
+        iterator begin() const { return arr_; }
 
         iterator end() { return arr_ + N; }
+        iterator end() const { return arr_ + N; }
 
-        bool empty() { return arr_.begin() == arr_.end(); }
+        bool empty() const { return N == 0; }
 
-        size_type size() noexcept { return N; }
+        size_type size() const noexcept { return N; }
 
-        size_type max_size() noexcept { return N; }
+        size_type max_size() const noexcept { return N; }
 
         void swap(array &other) noexcept
         {
-            std::swap(arr_, other);
+            std::swap(*this, other);
         }
 
         void fill(const_reference value)
         {
-            for (size_t i = arr_.begin(); i < arr_.end(); ++i)
+            for (size_t i = 0; i < arr_.size(); ++i)
             {
                 arr_[i] = value;
             }
