@@ -19,31 +19,25 @@ namespace s21
 
         array(std::initializer_list<value_type> const &items)
         {
-            size_t i = 0;
-            for (auto it = items.begin(); it < items.end(); ++it)
-            {
-                arr_[i++] = *it;
-            }
+            std::copy(items.begin(), items.end(), arr_);
         }
 
         array(const array &other)
         {
             for (size_t i = 0; i < other.size(); ++i)
             {
-                arr_[i] = other.arr_[i];
+                std::copy(other.begin(), other.end(), arr_);
             }
         }
 
-        array(array &&other) : array(other) {}
+        array(array &&other) : array(other) {
+        }
 
         array operator=(array &&other)
         {
             if (this != &other)
             {
-                for (size_t i = 0; other.size(); ++i)
-                {
-                    arr_[i] = other.arr_[i];
-                }
+                swap(other);
             }
             return *this;
         }
@@ -69,10 +63,10 @@ namespace s21
         iterator data() { return arr_; }
 
         iterator begin() { return arr_; }
-        iterator begin() const { return arr_; }
+        const_iterator begin() const { return arr_; }
 
         iterator end() { return arr_ + N; }
-        iterator end() const { return arr_ + N; }
+        const_iterator end() const { return arr_ + N; }
 
         bool empty() const { return N == 0; }
 
@@ -82,12 +76,12 @@ namespace s21
 
         void swap(array &other) noexcept
         {
-            std::swap(*this, other);
+            std::swap(arr_, other.arr_);
         }
 
         void fill(const_reference value)
         {
-            for (size_t i = 0; i < arr_.size(); ++i)
+            for (size_t i = 0; i < N; ++i)
             {
                 arr_[i] = value;
             }
