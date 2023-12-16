@@ -1,6 +1,6 @@
 CC = g++
 FLAGS = -Wall -Wextra -Werror -std=c++17
-FILES = test*.cc
+FILES = test_list.cc
 GTEST = -lgtest -lgtest_main
 GCOV = -fprofile-arcs -ftest-coverage -fPIC -pthread
 
