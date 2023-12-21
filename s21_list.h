@@ -105,10 +105,10 @@ namespace s21
             return size_;
         }
 
-        size_type max_size() const noexcept
-        {
-            return std::numeric_limits<size_type>::max() / sizeof(value_type);
-        }
+        // size_type max_size() const noexcept
+        // {
+        //     return std::numeric_limits<size_type>::max() / sizeof(value_type);
+        // }
 
         iterator insert(iterator pos, const_reference value)
         {
@@ -142,6 +142,7 @@ namespace s21
         {
             insert(end(), value);
         }
+
         void erase(iterator pos)
         {
             if (size_ == 1)
@@ -186,8 +187,28 @@ namespace s21
             std::swap(size_, other.size_);
         }
 
-        // void merge(list& other)
+        void merge(list& other)
+        {
+            auto itFirst = begin();
+            auto itSecond = other.begin();
+            while (itFirst != end() && itSecond != other.end()) {
+                if (*itFirst < *itSecond) {
+                    ++itFirst;
+                } else {
+                    itFirst = insert(itFirst, *itSecond);
+                    ++itSecond;
+                }
+            }
+
+            while (itSecond != other.end()) {
+                push_back(*itSecond);
+                ++itSecond;
+            }
+            
+        }
+
         // void splice(const_iterator pos, list& other)
+
         void reverse()
         {
             list copy;
@@ -197,8 +218,34 @@ namespace s21
             }
             swap(copy);
         }
-        // void unique()
-        // void sort()
+        
+        void unique()
+        {
+
+            auto it = begin();
+            ++it;
+            for(; it != end(); ++it)
+            {
+                auto jt = it;
+                --jt;
+                if(*it == *(jt))
+                {
+                    erase(jt);
+                }
+            }
+        }
+
+        void sort()
+        {
+            
+            for (auto it = begin(); it != end(); ++it) {
+                for (auto jt = begin(); jt != end(); ++jt) {
+                    if (*it < *jt) {
+                        std::swap(*it, *jt);
+                    }
+                }
+            }
+        }
 
         struct Node
         {

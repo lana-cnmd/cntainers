@@ -355,4 +355,57 @@ TEST(List, Reverse)
     stdlst.reverse();
     checkEquals(stdlst, s21lst);
 }
-//
+
+TEST(List, Sort)
+{
+    s21::list<int> s21lst{5, 4, 3, 2, 1, 34, 5, 5, 63, 56, 1, 0};
+    std::list<int> stdlst{5, 4, 3, 2, 1, 34, 5, 5, 63, 56, 1, 0};
+    s21lst.sort();
+    stdlst.sort();
+    checkEquals(stdlst, s21lst);
+}
+
+// TEST(List, Merge1)
+// {
+//     s21::list<int> s21lst1{5,9,0,1,3}; //0 1 3 5 9
+//     std::list<int> stdlst1{5,9,0,1,3};
+//     s21::list<int> s21lst2{8,7,2,6,4}; //2 4 6 7 8
+//     std::list<int> stdlst2{8,7,2,6,4};
+//     s21lst1.merge(s21lst2);
+//     stdlst1.merge(stdlst2);
+//     checkEquals(stdlst1, s21lst1); //0 1 2 3 4 5 6 7 8 9
+//     // checkEquals(stdlst2, s21lst2);
+// }
+
+// TEST(List, Merge2)
+// {
+//     s21::list<int> s21lst1{1, 2, 3, 4}; 
+//     std::list<int> stdlst1{1, 2, 3, 4};
+//     s21::list<int> s21lst2{1, 2, 3, 4}; 
+//     std::list<int> stdlst2{1, 2, 3, 4};
+//     s21lst1.merge(s21lst2);
+//     stdlst1.merge(stdlst2);
+//     checkEquals(stdlst1, s21lst1);
+//     // checkEquals(stdlst2, s21lst2);
+// }
+
+TEST(List, Merge1)
+{
+    s21::list<int> s21lst1{0, 1, 3, 5, 9}; 
+    std::list<int> stdlst1{0, 1, 3, 5, 9};
+    s21::list<int> s21lst2{2, 4, 6, 7, 8}; 
+    std::list<int> stdlst2{2, 4, 6, 7, 8};
+    s21lst1.merge(s21lst2);
+    stdlst1.merge(stdlst2);
+    checkEquals(stdlst1, s21lst1); //0 1 2 3 4 5 6 7 8 9
+    // checkEquals(stdlst2, s21lst2);
+}
+
+TEST(List, Unique)
+{
+    s21::list<int> s21lst1{1, 2, 2, 3, 3, 2, 1, 1, 2}; 
+    std::list<int> stdlst1{1, 2, 2, 3, 3, 2, 1, 1, 2};
+    s21lst1.unique();
+    stdlst1.unique();
+    checkEquals(stdlst1, s21lst1);
+}
