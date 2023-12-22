@@ -409,3 +409,15 @@ TEST(List, Unique)
     stdlst1.unique();
     checkEquals(stdlst1, s21lst1);
 }
+
+TEST(List, Splice)
+{
+    s21::list<int> s21lst1{1, 2, 3, 4, 5};
+    s21::list<int> s21lst2 {10, 20, 30, 40, 50};
+    std::list<int> stdlst1 {1, 2, 3, 4, 5};
+    std::list<int> stdlst2 {10, 20, 30, 40, 50};
+    s21lst1.splice(s21lst1.cbegin(), s21lst2);
+    stdlst1.splice(stdlst1.cbegin(), stdlst2);
+    checkEquals(stdlst1, s21lst1);
+    ASSERT_TRUE(s21lst2.empty());
+}

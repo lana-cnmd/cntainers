@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <memory>
+#include <algorithm>
 
 namespace s21
 {
@@ -12,12 +13,13 @@ namespace s21
     {
     public:
         class ListIterator;
+        class ListConstIterator;
 
         using value_type = T;
         using reference = T &;
         using const_reference = const T &;
         using iterator = ListIterator;
-        // usung const_iterator = ListConstIterator<T>;
+        using const_iterator = ListConstIterator;
         using size_type = size_t;
 
         list() : phantomNode(new Node), size_(0) {}
@@ -90,9 +92,20 @@ namespace s21
         {
             return iterator(phantomNode->next_);
         }
+
         iterator end() const
         {
             return iterator(phantomNode);
+        }
+
+        const_iterator cbegin() const
+        {
+            return const_iterator(phantomNode->next_);
+        }
+
+        const_iterator cend() const
+        {
+            return const_iterator(phantomNode);
         }
 
         bool empty() const noexcept
@@ -105,10 +118,10 @@ namespace s21
             return size_;
         }
 
-        // size_type max_size() const noexcept
-        // {
-        //     return std::numeric_limits<size_type>::max() / sizeof(value_type);
-        // }
+        size_type max_size() const noexcept
+        {
+            return std::numeric_limits<size_type>::max() / sizeof(value_type);
+        }
 
         iterator insert(iterator pos, const_reference value)
         {
@@ -131,6 +144,29 @@ namespace s21
             }
             ++size_;
             return iterator(ptr);
+        }
+
+        const_iterator insert(const_iterator pos, const_reference value)
+        {
+            Node *ptr = new Node(value);
+            if (size_ == 0)
+            {
+                ptr->next_ = phantomNode;
+                ptr->prev_ = phantomNode;
+                phantomNode->next_ = ptr;
+                phantomNode->prev_ = ptr;
+            }
+            else
+            {
+                Node *left = pos.ptr_->prev_;
+                Node *right = pos.ptr_;
+                ptr->prev_ = left;
+                ptr->next_ = right;
+                left->next_ = ptr;
+                right->prev_ = ptr;
+            }
+            ++size_;
+            return const_iterator(ptr);
         }
 
         void push_front(const_reference value)
@@ -207,7 +243,14 @@ namespace s21
             
         }
 
-        // void splice(const_iterator pos, list& other)
+        void splice(const_iterator pos, list& other)
+        {
+            for(auto it = other.begin(); it != other.end(); ++it)
+            {
+                insert(pos, *it);
+            }
+            other.clear();
+        }     
 
         void reverse()
         {
@@ -304,6 +347,60 @@ namespace s21
             }
 
             bool operator!=(const ListIterator &other) const
+            {
+                return ptr_ != other.ptr_;
+            }
+
+            Node *ptr_;
+        };
+
+        class ListConstIterator
+        {
+        public:
+            ListConstIterator(Node *ptr) : ptr_(ptr) {}
+
+            const value_type *operator->()
+            {
+                return &(ptr_->data_);
+            }
+
+            ListConstIterator &operator++()
+            {
+                ptr_ = ptr_->next_;
+                return *this;
+            }
+
+            ListConstIterator operator++(int)
+            {
+                Node *copy(ptr_);
+                ptr_ = ptr_->next_;
+                return copy;
+            }
+
+            ListConstIterator &operator--()
+            {
+                ptr_ = ptr_->prev_;
+                return *this;
+            }
+
+            ListConstIterator operator--(int)
+            {
+                Node *copy(ptr_);
+                ptr_ = ptr_->prev_;
+                return copy;
+            }
+
+            const_reference operator*()
+            {
+                return ptr_->data_;
+            }
+
+            bool operator==(const ListConstIterator &other) const
+            {
+                return ptr_ == other.ptr_;
+            }
+
+            bool operator!=(const ListConstIterator &other) const
             {
                 return ptr_ != other.ptr_;
             }
