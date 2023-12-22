@@ -240,7 +240,7 @@ namespace s21
                 push_back(*itSecond);
                 ++itSecond;
             }
-            
+            other.clear();
         }
 
         void splice(const_iterator pos, list& other)
@@ -415,5 +415,3 @@ namespace s21
 
 } // namespaсe s21
 #endif // CPP2_S21_CONTEINERS_1_S21_LIST_H
-
-//
