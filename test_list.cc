@@ -434,6 +434,69 @@ TEST(List, Merge)
     ASSERT_EQ(s21lst2.empty(), stdlst2.empty());
 }
 
+TEST(List, Merge2)
+{
+    s21::list<int> school1{1, 2, 3, 4, 5};
+    s21::list<int> school2{10, 20, 30, 40, 50};
+    std::list<int> std1{1, 2, 3, 4, 5};
+    std::list<int> std2{10, 20, 30, 40, 50};
+    school1.merge(school2);
+    std1.merge(std2);
+    auto stdIterator = std1.begin();
+    auto s21Iterator = school1.begin();
+    while (s21Iterator != school1.end())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++stdIterator;
+        ++s21Iterator;
+    }
+
+    s21::list<int> school3;
+    s21::list<int> school4{10, 20, 30, 40, 50};
+    std::list<int> std3;
+    std::list<int> std4{10, 20, 30, 40, 50};
+    school3.merge(school4);
+    std3.merge(std4);
+    stdIterator = std3.begin();
+    s21Iterator = school3.begin();
+    while (s21Iterator != school3.end())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++stdIterator;
+        ++s21Iterator;
+    }
+
+    s21::list<int> school5{10, 20, 30, 40, 50};
+    s21::list<int> school6;
+    std::list<int> std5{10, 20, 30, 40, 50};
+    std::list<int> std6;
+    school5.merge(school6);
+    std5.merge(std6);
+    stdIterator = std5.begin();
+    s21Iterator = school5.begin();
+    while (s21Iterator != school5.end())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++stdIterator;
+        ++s21Iterator;
+    }
+
+    s21::list<int> school7{1, 3, 5, 7, 9};
+    s21::list<int> school8{2, 4, 6, 8, 10};
+    std::list<int> std7{1, 3, 5, 7, 9};
+    std::list<int> std8{2, 4, 6, 8, 10};
+    school7.merge(school8);
+    std7.merge(std8);
+    stdIterator = std7.begin();
+    s21Iterator = school7.begin();
+    while (s21Iterator != school7.end())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++stdIterator;
+        ++s21Iterator;
+    }
+}
+
 TEST(List, Unique)
 {
     s21::list<int> s21lst1{1, 2, 2, 3, 3, 2, 1, 1, 2};
@@ -564,64 +627,6 @@ TEST(List, Splice2)
         ++s21Iterator;
     }
 }
-
-// TEST(ListMerge, True) {
-//   s21::list<int> school1{1, 2, 3, 4, 5};
-//   s21::list<int> school2{10, 20, 30, 40, 50};
-//   std::list<int> std1{1, 2, 3, 4, 5};
-//   std::list<int> std2{10, 20, 30, 40, 50};
-//   school1.merge(school2);
-//   std1.merge(std2);
-//   auto stdIterator = std1.begin();
-//   auto s21Iterator = school1.begin();
-//   while (s21Iterator != school1.end()) {
-//     ASSERT_EQ(*stdIterator, *s21Iterator);
-//     ++stdIterator;
-//     ++s21Iterator;
-//   }
-
-//   s21::list<int> school3;
-//   s21::list<int> school4{10, 20, 30, 40, 50};
-//   std::list<int> std3;
-//   std::list<int> std4{10, 20, 30, 40, 50};
-//   school3.merge(school4);
-//   std3.merge(std4);
-//   stdIterator = std3.begin();
-//   s21Iterator = school3.begin();
-//   while (s21Iterator != school3.end()) {
-//     ASSERT_EQ(*stdIterator, *s21Iterator);
-//     ++stdIterator;
-//     ++s21Iterator;
-//   }
-
-//   s21::list<int> school5{10, 20, 30, 40, 50};
-//   s21::list<int> school6;
-//   std::list<int> std5{10, 20, 30, 40, 50};
-//   std::list<int> std6;
-//   school5.merge(school6);
-//   std5.merge(std6);
-//   stdIterator = std5.begin();
-//   s21Iterator = school5.begin();
-//   while (s21Iterator != school5.end()) {
-//     ASSERT_EQ(*stdIterator, *s21Iterator);
-//     ++stdIterator;
-//     ++s21Iterator;
-//   }
-
-//   s21::list<int> school7{1, 3, 5, 7, 9};
-//   s21::list<int> school8{2, 4, 6, 8, 10};
-//   std::list<int> std7{1, 3, 5, 7, 9};
-//   std::list<int> std8{2, 4, 6, 8, 10};
-//   school7.merge(school8);
-//   std7.merge(std8);
-//   stdIterator = std7.begin();
-//   s21Iterator = school7.begin();
-//   while (s21Iterator != school7.end()) {
-//     ASSERT_EQ(*stdIterator, *s21Iterator);
-//     ++stdIterator;
-//     ++s21Iterator;
-//   }
-// }
 
 // TEST(S21ListReverse, Test3) //Sega
 // {

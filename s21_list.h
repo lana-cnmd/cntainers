@@ -240,11 +240,11 @@ namespace s21
 
         void merge(list &other)
         {
-            // if(other.empty()) {return;}
-            // if(empty()) {
-            //     swap(other);
-            //     return;
-            // }
+            if(other.empty()) {return;}
+            if(empty()) {
+                swap(other);
+                return;
+            }
             auto itFirst = begin();
             auto itSecond = other.begin();
             while (itFirst != end() && itSecond != other.end())
