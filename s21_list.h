@@ -22,6 +22,7 @@ namespace s21
         using const_iterator = ListConstIterator;
         using size_type = size_t;
 
+        // Member functions:
         list() : phantomNode(new Node), size_(0) {}
         list(size_type n) : phantomNode(new Node), size_(0)
         {
@@ -46,7 +47,7 @@ namespace s21
             }
         }
 
-        list(list &&other) : phantomNode(nullptr), size_(0)
+        list(list &&other) noexcept : phantomNode(nullptr), size_(0)
         {
             swap(other);
         }
@@ -58,7 +59,7 @@ namespace s21
                 delete phantomNode;
         }
 
-        list &operator=(list &other)
+        list &operator=(const list &other)
         {
             if (&other != this)
             {
@@ -68,7 +69,7 @@ namespace s21
             return *this;
         }
 
-        list operator=(list &&other)
+        list operator=(list &&other) noexcept
         {
             if (&other != this)
             {
@@ -77,37 +78,49 @@ namespace s21
             }
             return *this;
         }
-
-        const_reference front()
+        // Element access:
+        const_reference front() const // Calling front on an empty container causes undefined behavior.
         {
+            //         if (!size_) {
+            //   throw std::out_of_range("list is empty");
+            // }
             return phantomNode->next_->data_;
         }
 
-        const_reference back()
+        const_reference back() const // Calling back on an empty container causes undefined behavior.
         {
+            //         if (!size_) {
+            //   throw std::out_of_range("list is empty");
+            // }
             return phantomNode->prev_->data_;
         }
-
-        iterator begin() const
+        // Iterators:
+        iterator begin() noexcept
         {
             return iterator(phantomNode->next_);
         }
-
-        iterator end() const
+        iterator begin() const noexcept
         {
-            return iterator(phantomNode);
+            return iterator(phantomNode->next_);
         }
-
-        const_iterator cbegin() const
+        const_iterator cbegin() const noexcept
         {
             return const_iterator(phantomNode->next_);
         }
 
-        const_iterator cend() const
+        iterator end() noexcept
+        {
+            return iterator(phantomNode);
+        }
+        iterator end() const noexcept
+        {
+            return iterator(phantomNode);
+        }
+        const_iterator cend() const noexcept
         {
             return const_iterator(phantomNode);
         }
-
+        // Capacity:
         bool empty() const noexcept
         {
             return size_ == 0;
@@ -121,6 +134,17 @@ namespace s21
         size_type max_size() const noexcept
         {
             return std::numeric_limits<size_type>::max() / sizeof(value_type);
+        }
+        // Modifiers:
+        void clear() noexcept
+        {
+            // if (phantomNode == nullptr)
+            // {return;}
+            size_t copy = size_;
+            for (size_t i = 0; i < copy; ++i)
+            {
+                pop_back();
+            }
         }
 
         iterator insert(iterator pos, const_reference value)
@@ -169,16 +193,6 @@ namespace s21
             return const_iterator(ptr);
         }
 
-        void push_front(const_reference value)
-        {
-            insert(begin(), value);
-        }
-
-        void push_back(const_reference value)
-        {
-            insert(end(), value);
-        }
-
         void erase(iterator pos)
         {
             if (size_ == 1)
@@ -198,9 +212,9 @@ namespace s21
             --size_;
         }
 
-        void pop_front()
+        void push_back(const_reference value)
         {
-            erase(begin());
+            insert(end(), value);
         }
 
         void pop_back()
@@ -208,13 +222,14 @@ namespace s21
             erase(--(end()));
         }
 
-        void clear()
+        void push_front(const_reference value)
         {
-            size_t copy = size_;
-            for (size_t i = 0; i < copy; ++i)
-            {
-                pop_back();
-            }
+            insert(begin(), value);
+        }
+
+        void pop_front()
+        {
+            erase(begin());
         }
 
         void swap(list &other)
@@ -223,36 +238,46 @@ namespace s21
             std::swap(size_, other.size_);
         }
 
-        void merge(list& other)
+        void merge(list &other)
         {
+            // if(other.empty()) {return;}
+            // if(empty()) {
+            //     swap(other);
+            //     return;
+            // }
             auto itFirst = begin();
             auto itSecond = other.begin();
-            while (itFirst != end() && itSecond != other.end()) {
-                if (*itFirst < *itSecond) {
+            while (itFirst != end() && itSecond != other.end())
+            {
+                if (*itFirst < *itSecond)
+                {
                     ++itFirst;
-                } else {
+                }
+                else
+                {
                     itFirst = insert(itFirst, *itSecond);
                     ++itSecond;
                 }
             }
-
-            while (itSecond != other.end()) {
+            while (itSecond != other.end())
+            {
                 push_back(*itSecond);
                 ++itSecond;
             }
             other.clear();
         }
 
-        void splice(const_iterator pos, list& other)
+        void splice(const_iterator pos, list &other)
         {
-            for(auto it = other.begin(); it != other.end(); ++it)
+            // if(other.empty()) {return;}
+            for (auto it = other.begin(); it != other.end(); ++it)
             {
                 insert(pos, *it);
             }
             other.clear();
-        }     
+        }
 
-        void reverse()
+        void reverse() noexcept
         {
             list copy;
             for (auto it = begin(); it != end(); ++it)
@@ -261,17 +286,17 @@ namespace s21
             }
             swap(copy);
         }
-        
+
         void unique()
         {
-
+            // if(size_ <= 1) {return;}
             auto it = begin();
             ++it;
-            for(; it != end(); ++it)
+            for (; it != end(); ++it)
             {
                 auto jt = it;
                 --jt;
-                if(*it == *(jt))
+                if (*it == *(jt))
                 {
                     erase(jt);
                 }
@@ -280,10 +305,12 @@ namespace s21
 
         void sort()
         {
-            
-            for (auto it = begin(); it != end(); ++it) {
-                for (auto jt = begin(); jt != end(); ++jt) {
-                    if (*it < *jt) {
+            for (auto it = begin(); it != end(); ++it)
+            {
+                for (auto jt = begin(); jt != end(); ++jt)
+                {
+                    if (*it < *jt)
+                    {
                         std::swap(*it, *jt);
                     }
                 }

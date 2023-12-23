@@ -29,117 +29,7 @@ TEST(List, Insert)
     checkEquals(stdlst, s21lst);
 }
 
-TEST(List, Erase)
-{
-    s21::list<int> s21lst{1, 2, 3, 4};
-    std::list<int> stdlst{1, 2, 3, 4};
-    s21lst.erase(++(s21lst.begin()));
-    stdlst.erase(++(stdlst.begin()));
-    checkEquals(stdlst, s21lst);
-
-    s21::list<int> s21lst2{1};
-    std::list<int> stdlst2{1};
-    s21lst2.erase(s21lst2.begin());
-    stdlst2.erase(stdlst2.begin());
-    ASSERT_EQ(stdlst2.size(), s21lst2.size());
-}
-
-TEST(List, PopFront)
-{
-    s21::list<int> s21lst{1, 2, 3, 4};
-    std::list<int> stdlst{1, 2, 3, 4};
-    s21lst.pop_front();
-    stdlst.pop_front();
-    checkEquals(stdlst, s21lst);
-}
-
-TEST(List, PopBack)
-{
-    s21::list<int> s21lst{1, 2, 3, 4};
-    std::list<int> stdlst{1, 2, 3, 4};
-    s21lst.pop_back();
-    stdlst.pop_back();
-    checkEquals(stdlst, s21lst);
-}
-
-TEST(List, PushFront)
-{
-    s21::list<int> s21lst;
-    std::list<int> stdlst;
-    for (int i = 0; i < 10; ++i)
-    {
-        s21lst.push_front(i);
-        stdlst.push_front(i);
-    }
-    checkEquals(stdlst, s21lst);
-}
-
-TEST(List, PushBack)
-{
-    s21::list<int> s21lst;
-    std::list<int> stdlst;
-    for (int i = 0; i < 10; ++i)
-    {
-        s21lst.push_back(i);
-        stdlst.push_back(i);
-    }
-    checkEquals(stdlst, s21lst);
-}
-
-TEST(List, Constructors)
-{
-    s21::list<int> s21lst(3);
-    std::list<int> stdlst(3);
-    checkEquals(stdlst, s21lst);
-
-    s21::list<int> s21lst2{1, 2, 3, 4};
-    std::list<int> stdlst2{1, 2, 3, 4};
-    checkEquals(stdlst2, s21lst2);
-
-    s21::list<int> s21lst3(s21lst2);
-    std::list<int> stdlst3(stdlst2);
-    checkEquals(stdlst3, s21lst3);
-
-    s21::list<int> s21lst4(std::move(s21lst3));
-    std::list<int> stdlst4(std::move(stdlst3));
-    checkEquals(stdlst4, s21lst4);
-}
-
-TEST(List, OperatorEq)
-{
-    s21::list<int> s21lst{1, 2, 3, 4};
-    std::list<int> stdlst{1, 2, 3, 4};
-    s21::list<int> s21lst2;
-    std::list<int> stdlst2;
-    s21lst2 = s21lst;
-    stdlst2 = stdlst;
-    checkEquals(stdlst2, s21lst2);
-
-    s21lst = std::move(s21lst2);
-    stdlst = std::move(stdlst2);
-    checkEquals(stdlst, s21lst);
-}
-
-TEST(ListPushBack, True)
-{
-    s21::list<int> school1;
-    std::list<int> std1;
-    for (int i = 1; i < 10; ++i)
-    {
-        school1.push_back(i * i);
-        std1.push_back(i * i);
-    }
-    auto stdIterator = std1.begin();
-    auto s21Iterator = school1.begin();
-    while (s21Iterator != school1.end())
-    {
-        ASSERT_EQ(*stdIterator, *s21Iterator);
-        ++stdIterator;
-        ++s21Iterator;
-    }
-}
-
-TEST(ListInsert, True)
+TEST(List, Insert2)
 {
     s21::list<int> school1{1, 2, 3, 4, 5};
     std::list<int> std1{1, 2, 3, 4, 5};
@@ -182,7 +72,22 @@ TEST(ListInsert, True)
     ASSERT_EQ(*school3.begin(), *std3.begin());
 }
 
-TEST(ListErase, True)
+TEST(List, Erase)
+{
+    s21::list<int> s21lst{1, 2, 3, 4};
+    std::list<int> stdlst{1, 2, 3, 4};
+    s21lst.erase(++(s21lst.begin()));
+    stdlst.erase(++(stdlst.begin()));
+    checkEquals(stdlst, s21lst);
+
+    s21::list<int> s21lst2{1};
+    std::list<int> stdlst2{1};
+    s21lst2.erase(s21lst2.begin());
+    stdlst2.erase(stdlst2.begin());
+    ASSERT_EQ(stdlst2.size(), s21lst2.size());
+}
+
+TEST(List, Erase2)
 {
     s21::list<int> school1{1, 2, 3, 4, 5};
     std::list<int> std1{1, 2, 3, 4, 5};
@@ -225,40 +130,16 @@ TEST(ListErase, True)
     ASSERT_EQ(school3.size(), std3.size());
 }
 
-TEST(ListPopBack, True)
+TEST(List, PopFront)
 {
-    s21::list<int> school1{1, 2, 3, 4, 5};
-    std::list<int> std1{1, 2, 3, 4, 5};
-
-    school1.pop_back();
-    std1.pop_back();
-    auto stdIterator = std1.begin();
-    auto s21Iterator = school1.begin();
-    while (s21Iterator != school1.end())
-    {
-        ASSERT_EQ(*stdIterator, *s21Iterator);
-        ++stdIterator;
-        ++s21Iterator;
-    }
-
-    s21::list<int> school2{1, 2, 3, 4, 5};
-    std::list<int> std2{1, 2, 3, 4, 5};
-    for (size_t i = 0; i < 3; ++i)
-    {
-        school2.pop_back();
-        std2.pop_back();
-    }
-    auto tempS21Iterator = school2.begin();
-    auto tempStdIterator = std2.begin();
-    while (tempS21Iterator != school2.end())
-    {
-        ASSERT_EQ(*tempS21Iterator, *tempStdIterator);
-        ++tempS21Iterator;
-        ++tempStdIterator;
-    }
+    s21::list<int> s21lst{1, 2, 3, 4};
+    std::list<int> stdlst{1, 2, 3, 4};
+    s21lst.pop_front();
+    stdlst.pop_front();
+    checkEquals(stdlst, s21lst);
 }
 
-TEST(ListPopFront, True)
+TEST(List, PopFront2)
 {
     s21::list<int> school1{1, 2, 3, 4, 5};
     std::list<int> std1{1, 2, 3, 4, 5};
@@ -291,7 +172,61 @@ TEST(ListPopFront, True)
     }
 }
 
-TEST(ListPushFront, True)
+TEST(List, PopBack)
+{
+    s21::list<int> s21lst{1, 2, 3, 4};
+    std::list<int> stdlst{1, 2, 3, 4};
+    s21lst.pop_back();
+    stdlst.pop_back();
+    checkEquals(stdlst, s21lst);
+}
+
+TEST(List, PopBack2)
+{
+    s21::list<int> school1{1, 2, 3, 4, 5};
+    std::list<int> std1{1, 2, 3, 4, 5};
+
+    school1.pop_back();
+    std1.pop_back();
+    auto stdIterator = std1.begin();
+    auto s21Iterator = school1.begin();
+    while (s21Iterator != school1.end())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++stdIterator;
+        ++s21Iterator;
+    }
+
+    s21::list<int> school2{1, 2, 3, 4, 5};
+    std::list<int> std2{1, 2, 3, 4, 5};
+    for (size_t i = 0; i < 3; ++i)
+    {
+        school2.pop_back();
+        std2.pop_back();
+    }
+    auto tempS21Iterator = school2.begin();
+    auto tempStdIterator = std2.begin();
+    while (tempS21Iterator != school2.end())
+    {
+        ASSERT_EQ(*tempS21Iterator, *tempStdIterator);
+        ++tempS21Iterator;
+        ++tempStdIterator;
+    }
+}
+
+TEST(List, PushFront)
+{
+    s21::list<int> s21lst;
+    std::list<int> stdlst;
+    for (int i = 0; i < 10; ++i)
+    {
+        s21lst.push_front(i);
+        stdlst.push_front(i);
+    }
+    checkEquals(stdlst, s21lst);
+}
+
+TEST(List, PushFront2)
 {
     s21::list<int> school1;
     std::list<int> std1;
@@ -308,6 +243,98 @@ TEST(ListPushFront, True)
         ++stdIterator;
         ++s21Iterator;
     }
+}
+
+TEST(List, PushBack)
+{
+    s21::list<int> s21lst;
+    std::list<int> stdlst;
+    for (int i = 0; i < 10; ++i)
+    {
+        s21lst.push_back(i);
+        stdlst.push_back(i);
+    }
+    checkEquals(stdlst, s21lst);
+}
+
+TEST(List, PushBack2)
+{
+    s21::list<int> school1;
+    std::list<int> std1;
+    for (int i = 1; i < 10; ++i)
+    {
+        school1.push_back(i * i);
+        std1.push_back(i * i);
+    }
+    auto stdIterator = std1.begin();
+    auto s21Iterator = school1.begin();
+    while (s21Iterator != school1.end())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++stdIterator;
+        ++s21Iterator;
+    }
+}
+
+TEST(List, Constructors)
+{
+    s21::list<int> s21lst(3);
+    std::list<int> stdlst(3);
+    checkEquals(stdlst, s21lst);
+
+    s21::list<int> s21lst2{1, 2, 3, 4};
+    std::list<int> stdlst2{1, 2, 3, 4};
+    checkEquals(stdlst2, s21lst2);
+
+    s21::list<int> s21lst3(s21lst2);
+    std::list<int> stdlst3(stdlst2);
+    checkEquals(stdlst3, s21lst3);
+
+    s21::list<int> s21lst4(std::move(s21lst3));
+    std::list<int> stdlst4(std::move(stdlst3));
+    checkEquals(stdlst4, s21lst4);
+}
+
+TEST(List, MoveEmptyList)
+{
+    s21::list<int> school1;
+    s21::list<int> custom_list2(std::move(school1));
+
+    EXPECT_EQ(school1.size(), static_cast<size_t>(0));
+    EXPECT_EQ(custom_list2.size(), static_cast<size_t>(0));
+}
+
+TEST(List, MoveNonEmptyList)
+{
+    s21::list<int> school1 = {1, 2, 3};
+    s21::list<int> custom_list2(std::move(school1));
+    std::list<int> std1 = {1, 2, 3};
+    std::list<int> std2(std::move(std1));
+
+    EXPECT_EQ(school1.size(), std1.size());
+    auto stdIterator = std2.begin();
+    auto s21Iterator = custom_list2.begin();
+    while (s21Iterator != custom_list2.end())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++stdIterator;
+        ++s21Iterator;
+    }
+}
+
+TEST(List, OperatorEq)
+{
+    s21::list<int> s21lst{1, 2, 3, 4};
+    std::list<int> stdlst{1, 2, 3, 4};
+    s21::list<int> s21lst2;
+    std::list<int> stdlst2;
+    s21lst2 = s21lst;
+    stdlst2 = stdlst;
+    checkEquals(stdlst2, s21lst2);
+
+    s21lst = std::move(s21lst2);
+    stdlst = std::move(stdlst2);
+    checkEquals(stdlst, s21lst);
 }
 
 TEST(List, Clear)
@@ -356,6 +383,21 @@ TEST(List, Reverse)
     checkEquals(stdlst, s21lst);
 }
 
+TEST(List, Reverse2)
+{
+    s21::list<int> my_list = {1, 2, 3, 4, 5};
+    s21::list<int> my_list2 = {5, 4, 3, 2, 1};
+    my_list.reverse();
+    auto s21Iterator1 = my_list.begin();
+    auto s21Iterator2 = my_list2.begin();
+    while (s21Iterator1 != my_list.end())
+    {
+        ASSERT_EQ(*s21Iterator2, *s21Iterator1);
+        ++s21Iterator1;
+        ++s21Iterator2;
+    }
+}
+
 TEST(List, Sort)
 {
     s21::list<int> s21lst{5, 4, 3, 2, 1, 34, 5, 5, 63, 56, 1, 0};
@@ -365,33 +407,79 @@ TEST(List, Sort)
     checkEquals(stdlst, s21lst);
 }
 
+TEST(List, Sort2)
+{
+    s21::list<int> my_list = {5, 2, 8, 1, 6};
+    s21::list<int> my_list2 = {1, 2, 5, 6, 8};
+    my_list.sort();
+    auto s21Iterator1 = my_list.begin();
+    auto s21Iterator2 = my_list2.begin();
+    while (s21Iterator1 != my_list.end())
+    {
+        ASSERT_EQ(*s21Iterator2, *s21Iterator1);
+        ++s21Iterator1;
+        ++s21Iterator2;
+    }
+}
+
 TEST(List, Merge)
 {
-    s21::list<int> s21lst1{0, 1, 3, 5, 9}; 
+    s21::list<int> s21lst1{0, 1, 3, 5, 9};
     std::list<int> stdlst1{0, 1, 3, 5, 9};
-    s21::list<int> s21lst2{2, 4, 6, 7, 8}; 
+    s21::list<int> s21lst2{2, 4, 6, 7, 8};
     std::list<int> stdlst2{2, 4, 6, 7, 8};
     s21lst1.merge(s21lst2);
     stdlst1.merge(stdlst2);
-    checkEquals(stdlst1, s21lst1); 
+    checkEquals(stdlst1, s21lst1);
     ASSERT_EQ(s21lst2.empty(), stdlst2.empty());
 }
 
 TEST(List, Unique)
 {
-    s21::list<int> s21lst1{1, 2, 2, 3, 3, 2, 1, 1, 2}; 
+    s21::list<int> s21lst1{1, 2, 2, 3, 3, 2, 1, 1, 2};
     std::list<int> stdlst1{1, 2, 2, 3, 3, 2, 1, 1, 2};
     s21lst1.unique();
     stdlst1.unique();
     checkEquals(stdlst1, s21lst1);
 }
 
+TEST(List, Unique2)
+{
+    s21::list<int> school1{1, 3, 5, 7, 9, 1, 3, 5, 7, 9};
+    std::list<int> std1{1, 3, 5, 7, 9, 1, 3, 5, 7, 9};
+    school1.unique();
+    std1.unique();
+    EXPECT_EQ(school1.size(), std1.size());
+    auto s21Iterator = school1.begin();
+    auto stdIterator = std1.begin();
+    while (s21Iterator != school1.end())
+    {
+        EXPECT_EQ(*s21Iterator, *stdIterator);
+        ++s21Iterator;
+        ++stdIterator;
+    }
+
+    s21::list<int> school2{1, 1, 1, 2, 2, 2};
+    std::list<int> std2{1, 1, 1, 2, 2, 2};
+    school2.unique();
+    std2.unique();
+    EXPECT_EQ(school2.size(), std2.size());
+    s21Iterator = school2.begin();
+    stdIterator = std2.begin();
+    while (s21Iterator != school2.end())
+    {
+        EXPECT_EQ(*s21Iterator, *stdIterator);
+        ++s21Iterator;
+        ++stdIterator;
+    }
+}
+
 TEST(List, Splice)
 {
     s21::list<int> s21lst1{1, 2, 3, 4, 5};
-    s21::list<int> s21lst2 {10, 20, 30, 40, 50};
-    std::list<int> stdlst1 {1, 2, 3, 4, 5};
-    std::list<int> stdlst2 {10, 20, 30, 40, 50};
+    s21::list<int> s21lst2{10, 20, 30, 40, 50};
+    std::list<int> stdlst1{1, 2, 3, 4, 5};
+    std::list<int> stdlst2{10, 20, 30, 40, 50};
     s21lst1.splice(s21lst1.cbegin(), s21lst2);
     stdlst1.splice(stdlst1.cbegin(), stdlst2);
     checkEquals(stdlst1, s21lst1);
@@ -530,87 +618,8 @@ TEST(List, Splice)
 //   }
 // }
 
-TEST(ListUnique, True) {
-  s21::list<int> school1{1, 3, 5, 7, 9, 1, 3, 5, 7, 9};
-  std::list<int> std1{1, 3, 5, 7, 9, 1, 3, 5, 7, 9};
-  school1.unique();
-  std1.unique();
-  EXPECT_EQ(school1.size(), std1.size());
-  auto s21Iterator = school1.begin();
-  auto stdIterator = std1.begin();
-  while (s21Iterator != school1.end()) {
-    EXPECT_EQ(*s21Iterator, *stdIterator);
-    ++s21Iterator;
-    ++stdIterator;
-  }
-
-  s21::list<int> school2{1, 1, 1, 2, 2, 2};
-  std::list<int> std2{1, 1, 1, 2, 2, 2};
-  school2.unique();
-  std2.unique();
-  EXPECT_EQ(school2.size(), std2.size());
-  s21Iterator = school2.begin();
-  stdIterator = std2.begin();
-  while (s21Iterator != school2.end()) {
-    EXPECT_EQ(*s21Iterator, *stdIterator);
-    ++s21Iterator;
-    ++stdIterator;
-  }
-}
-
-TEST(ListMoveConstructor, MoveEmptyList) {
-  s21::list<int> school1;
-  s21::list<int> custom_list2(std::move(school1));
-
-  EXPECT_EQ(school1.size(), static_cast<size_t>(0));
-  EXPECT_EQ(custom_list2.size(), static_cast<size_t>(0));
-}
-
-TEST(ListMoveConstructor, MoveNonEmptyList) {
-  s21::list<int> school1 = {1, 2, 3};
-  s21::list<int> custom_list2(std::move(school1));
-  std::list<int> std1 = {1, 2, 3};
-  std::list<int> std2(std::move(std1));
-
-  EXPECT_EQ(school1.size(), std1.size());
-  auto stdIterator = std2.begin();
-  auto s21Iterator = custom_list2.begin();
-  while (s21Iterator != custom_list2.end()) {
-    ASSERT_EQ(*stdIterator, *s21Iterator);
-    ++stdIterator;
-    ++s21Iterator;
-  }
-}
-
-TEST(S21ListReverse, Test1) {
-  s21::list<int> my_list = {1, 2, 3, 4, 5};
-  s21::list<int> my_list2 = {5, 4, 3, 2, 1};
-  my_list.reverse();
-  auto s21Iterator1 = my_list.begin();
-  auto s21Iterator2 = my_list2.begin();
-  while (s21Iterator1 != my_list.end()) {
-    ASSERT_EQ(*s21Iterator2, *s21Iterator1);
-    ++s21Iterator1;
-    ++s21Iterator2;
-  }
-}
-
 // TEST(S21ListReverse, Test3) {
 //   s21::list<int> my_list;
 //   my_list.reverse();
 //   ASSERT_TRUE(my_list.empty());
 // }
-
-TEST(S21ListSort, Test1) {
-  s21::list<int> my_list = {5, 2, 8, 1, 6};
-  s21::list<int> my_list2 = {1, 2, 5, 6, 8};
-  my_list.sort();
-  auto s21Iterator1 = my_list.begin();
-  auto s21Iterator2 = my_list2.begin();
-  while (s21Iterator1 != my_list.end()) {
-    ASSERT_EQ(*s21Iterator2, *s21Iterator1);
-    ++s21Iterator1;
-    ++s21Iterator2;
-  }
-}
-
