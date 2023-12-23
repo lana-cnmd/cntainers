@@ -269,7 +269,10 @@ namespace s21
 
         void splice(const_iterator pos, list &other)
         {
-            // if(other.empty()) {return;}
+            if (other.empty())
+            {
+                return;
+            }
             for (auto it = other.begin(); it != other.end(); ++it)
             {
                 insert(pos, *it);
