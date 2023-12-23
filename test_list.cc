@@ -337,6 +337,76 @@ TEST(List, OperatorEq)
     checkEquals(stdlst, s21lst);
 }
 
+TEST(List, ConstIterator)
+{
+    s21::list<int> school1{1, 2, 3, 4, 5};
+    std::list<int> std1{1, 2, 3, 4, 5};
+    auto stdIterator = std1.cbegin();
+    auto s21Iterator = school1.cbegin();
+    while (s21Iterator != school1.cend())
+    {
+        ASSERT_EQ(*stdIterator, *s21Iterator);
+        ++s21Iterator;
+        ++stdIterator;
+    }
+}
+
+TEST(List, ListIterator1)
+{
+    s21::list<int> s21lst = {1, 2, 3};
+    std::list<int> stdlst = {1, 2, 3};
+
+    s21::list<int>::iterator s21it;
+    s21::list<int>::iterator s21it2;
+    s21it = s21lst.begin();
+    s21it2 = s21lst.begin();
+    EXPECT_TRUE(s21it == s21it2);
+
+    std::list<int>::iterator stdit;
+    stdit = stdlst.begin();
+
+    ++stdit;
+    ++s21it;
+    EXPECT_EQ(*s21it, *stdit);
+    --s21it;
+    --stdit;
+    EXPECT_EQ(*s21it, *stdit);
+    s21it++;
+    stdit++;
+    EXPECT_EQ(*s21it, *stdit);
+    s21it--;
+    stdit--;
+    EXPECT_EQ(*s21it, *stdit);
+}
+
+TEST(List, ListConstIterator1)
+{
+    s21::list<int> s21lst = {1, 2, 3};
+    std::list<int> stdlst = {1, 2, 3};
+
+    s21::list<int>::const_iterator s21it;
+    s21::list<int>::const_iterator s21it2;
+    s21it = s21lst.cbegin();
+    s21it2 = s21lst.cbegin();
+    EXPECT_TRUE(s21it == s21it2);
+
+    std::list<int>::const_iterator stdit;
+    stdit = stdlst.cbegin();
+
+    ++stdit;
+    ++s21it;
+    EXPECT_EQ(*s21it, *stdit);
+    --s21it;
+    --stdit;
+    EXPECT_EQ(*s21it, *stdit);
+    s21it++;
+    stdit++;
+    EXPECT_EQ(*s21it, *stdit);
+    s21it--;
+    stdit--;
+    EXPECT_EQ(*s21it, *stdit);
+}
+
 TEST(List, Clear)
 {
     s21::list<int> s21lst{1, 2, 3, 4};
@@ -365,6 +435,8 @@ TEST(List, Front)
     s21::list<int> s21lst{1, 2, 3, 4};
     std::list<int> stdlst{1, 2, 3, 4};
     ASSERT_EQ(stdlst.front(), s21lst.front());
+    s21::list<int> s21lst2{};
+    ASSERT_ANY_THROW(s21lst2.front());
 }
 
 TEST(List, Back)
@@ -372,6 +444,8 @@ TEST(List, Back)
     s21::list<int> s21lst{1, 2, 3, 4};
     std::list<int> stdlst{1, 2, 3, 4};
     ASSERT_EQ(stdlst.back(), s21lst.back());
+    s21::list<int> s21lst2{};
+    ASSERT_ANY_THROW(s21lst2.back());
 }
 
 TEST(List, Reverse)

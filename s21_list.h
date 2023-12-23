@@ -344,6 +344,8 @@ namespace s21
         class ListIterator
         {
         public:
+            ListIterator() {}
+
             ListIterator(Node *ptr) : ptr_(ptr) {}
 
             value_type *operator->()
@@ -398,6 +400,7 @@ namespace s21
         class ListConstIterator
         {
         public:
+            ListConstIterator() {}
             ListConstIterator(Node *ptr) : ptr_(ptr) {}
 
             const value_type *operator->()
