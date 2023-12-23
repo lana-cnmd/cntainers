@@ -100,6 +100,33 @@ TEST(Array, Copy_Constructor)
     checkEquals(stdarrStr, s21arrStr);
 }
 
+TEST(Array, Copy_Operator)
+{
+    s21::array<int, 5> school1{1, 2, 66, 73, 3};
+    std::array<int, 5> std1{1, 2, 66, 73, 3};
+    s21::array<int, 5> school2;
+    std::array<int, 5> std2;
+    school2 = school1;
+    std2 = std1;
+    for (size_t i = 0; i < school2.size(); ++i)
+    {
+        ASSERT_EQ(school2[i], std2[i]);
+    }
+}
+
+TEST(Array, Citerators)
+{
+    s21::array<int, 10> school1{1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    auto it = school1.cbegin();
+    int i = 1;
+    while (it != school1.cend())
+    {
+        ASSERT_EQ(*it, i);
+        ++it;
+        ++i;
+    }
+}
+
 TEST(Array, At)
 {
     s21::array<int, 3> s21arrInt{1, 2, 3};
@@ -148,15 +175,16 @@ TEST(Array, FrontBackSize)
     ASSERT_EQ(stdarrStr.max_size(), s21arrStr.max_size());
 }
 
-TEST(Array, Data) {
-  s21::array<int, 3> s21arrInt{1, 2, 3};
-  ASSERT_EQ(*s21arrInt.data(), 1);
+TEST(Array, Data)
+{
+    s21::array<int, 3> s21arrInt{1, 2, 3};
+    ASSERT_EQ(*s21arrInt.data(), 1);
 
-  s21::array<double, 3> s21arrDob{1.1, 2.2, 3.3};
-  ASSERT_DOUBLE_EQ(*s21arrDob.data(), 1.1);
+    s21::array<double, 3> s21arrDob{1.1, 2.2, 3.3};
+    ASSERT_DOUBLE_EQ(*s21arrDob.data(), 1.1);
 
-  s21::array<std::string, 3> s21arrStr{"Hey", ",", "you"};
-  ASSERT_EQ(*s21arrStr.data(), "Hey");
+    s21::array<std::string, 3> s21arrStr{"Hey", ",", "you"};
+    ASSERT_EQ(*s21arrStr.data(), "Hey");
 }
 
 TEST(Array, Swap)

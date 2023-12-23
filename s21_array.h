@@ -8,6 +8,7 @@ namespace s21
     template <typename T, size_t N>
     struct array
     {
+    public:
         using value_type = T;
         using reference = T &;
         using const_reference = const T &;
@@ -15,6 +16,7 @@ namespace s21
         using const_iterator = const T *;
         using size_type = size_t;
 
+        // Implicitly-defined member functions:
         array() = default;
 
         array(std::initializer_list<value_type> const &items)
@@ -24,14 +26,13 @@ namespace s21
 
         array(const array &other)
         {
-            for (size_t i = 0; i < other.size(); ++i)
+            for (size_type i = 0; i < other.size(); ++i)
             {
                 std::copy(other.begin(), other.end(), arr_);
             }
         }
 
-        array(array &&other) : array(other) {
-        }
+        array(array &&other) noexcept : array(other) {}
 
         array operator=(array &&other)
         {
@@ -42,8 +43,16 @@ namespace s21
             return *this;
         }
 
+        array &operator=(const array &other) noexcept
+        {
+            for (size_type i = 0; i < N; ++i)
+                arr_[i] = other.arr_[i];
+            return *this;
+        }
+
         ~array() = default;
 
+        // Element access:
         reference at(size_type pos)
         {
             if (pos > N - 1 || N == 0)
@@ -55,33 +64,32 @@ namespace s21
 
         reference operator[](size_type pos) { return arr_[pos]; }
         const_reference operator[](size_type pos) const { return arr_[pos]; }
+        const_reference front() const { return arr_[0]; }    // Calling front on an empty container causes undefined behavior.
+        const_reference back() const { return arr_[N - 1]; } // Calling back on an empty container causes undefined behavior.
+        iterator data() noexcept { return arr_; }
 
-        const_reference front() const { return arr_[0]; }
+        // Iterators:
+        iterator begin() noexcept { return arr_; }
+        const_iterator begin() const noexcept { return arr_; }
+        const_iterator cbegin() const noexcept { return arr_; }
+        iterator end() noexcept { return arr_ + N; }
+        const_iterator end() const noexcept { return arr_ + N; }
+        const_iterator cend() const noexcept { return arr_ + N; }
 
-        const_reference back() const { return arr_[N - 1]; }
+        // Capacity:
+        constexpr bool empty() const noexcept { return N == 0; }
+        constexpr size_type size() const noexcept { return N; }
+        constexpr size_type max_size() const noexcept { return N; }
 
-        iterator data() { return arr_; }
-
-        iterator begin() { return arr_; }
-        const_iterator begin() const { return arr_; }
-
-        iterator end() { return arr_ + N; }
-        const_iterator end() const { return arr_ + N; }
-
-        bool empty() const { return N == 0; }
-
-        size_type size() const noexcept { return N; }
-
-        size_type max_size() const noexcept { return N; }
-
-        void swap(array &other) noexcept
+        // Operations:
+        void swap(array &other) noexcept // noexcept?
         {
             std::swap(arr_, other.arr_);
         }
 
         void fill(const_reference value)
         {
-            for (size_t i = 0; i < N; ++i)
+            for (size_type i = 0; i < N; ++i)
             {
                 arr_[i] = value;
             }
@@ -90,5 +98,6 @@ namespace s21
     public:
         T arr_[N];
     };
+
 } // namespaсe s21
 #endif // CPP2_S21_CONTEINERS_1_S21_ARRAY_H
