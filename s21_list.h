@@ -81,17 +81,19 @@ namespace s21
         // Element access:
         const_reference front() const // Calling front on an empty container causes undefined behavior.
         {
-            //         if (!size_) {
-            //   throw std::out_of_range("list is empty");
-            // }
+            if (!size_)
+            {
+                throw std::out_of_range("list is empty");
+            }
             return phantomNode->next_->data_;
         }
 
         const_reference back() const // Calling back on an empty container causes undefined behavior.
         {
-            //         if (!size_) {
-            //   throw std::out_of_range("list is empty");
-            // }
+            if (!size_)
+            {
+                throw std::out_of_range("list is empty");
+            }
             return phantomNode->prev_->data_;
         }
         // Iterators:
@@ -138,8 +140,10 @@ namespace s21
         // Modifiers:
         void clear() noexcept
         {
-            // if (phantomNode == nullptr)
-            // {return;}
+            if (phantomNode == nullptr)
+            {
+                return;
+            }
             size_t copy = size_;
             for (size_t i = 0; i < copy; ++i)
             {
@@ -240,8 +244,12 @@ namespace s21
 
         void merge(list &other)
         {
-            if(other.empty()) {return;}
-            if(empty()) {
+            if (other.empty())
+            {
+                return;
+            }
+            if (empty())
+            {
                 swap(other);
                 return;
             }
@@ -292,7 +300,10 @@ namespace s21
 
         void unique()
         {
-            // if(size_ <= 1) {return;}
+            if (size_ <= 1)
+            {
+                return;
+            }
             auto it = begin();
             ++it;
             for (; it != end(); ++it)

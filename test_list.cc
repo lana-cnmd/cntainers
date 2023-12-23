@@ -627,10 +627,3 @@ TEST(List, Splice2)
         ++s21Iterator;
     }
 }
-
-// TEST(S21ListReverse, Test3) //Sega
-// {
-//     s21::list<int> my_list;
-//     my_list.reverse();
-//     ASSERT_TRUE(my_list.empty());
-// }
