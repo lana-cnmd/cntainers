@@ -377,6 +377,7 @@ TEST(List, ListIterator1)
     s21it--;
     stdit--;
     EXPECT_EQ(*s21it, *stdit);
+
 }
 
 TEST(List, ListConstIterator1)
@@ -405,6 +406,8 @@ TEST(List, ListConstIterator1)
     s21it--;
     stdit--;
     EXPECT_EQ(*s21it, *stdit);
+
+    
 }
 
 TEST(List, Clear)
